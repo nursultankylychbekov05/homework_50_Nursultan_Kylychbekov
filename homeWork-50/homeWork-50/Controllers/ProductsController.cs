@@ -14,13 +14,28 @@ public class ProductsController : Controller
         _context = context;
     }
     
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(int? categoryId, int? brandId)
     {
-        var products = await _context.Products
+        var query = _context.Products
             .Include(p => p.Category)
             .Include(p => p.Brand)
+            .AsQueryable();
+        
+        if (categoryId.HasValue && categoryId.Value > 0)
+        {
+            query = query.Where(p => p.CategoryId == categoryId.Value);
+        }
+        
+        if (brandId.HasValue && brandId.Value > 0)
+        {
+            query = query.Where(p => p.BrandId == brandId.Value);
+        }
+
+        var products = await query
             .OrderByDescending(p => p.CreatedAt)
             .ToListAsync();
+        ViewBag.Categories = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name", categoryId);
+        ViewBag.Brands = new SelectList(await _context.Brands.ToListAsync(), "Id", "Name", brandId);
 
         return View(products);
     }
