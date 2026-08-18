@@ -1,0 +1,35 @@
+﻿@model homeWork_50.Models.Product
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<h2>Детали товара</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-5">
+        <img src="@Model.ImageUrl" class="img-fluid rounded border" alt="@Model.Name" />
+    </div>
+    <div class="col-md-7">
+        <h3>@Model.Name</h3>
+        <p class="fs-4 text-primary fw-bold">@Model.Price.ToString("N0") C</p>
+
+        <dl class="row">
+            <dt class="col-sm-4">Категория:</dt>
+            <dd class="col-sm-8">@Model.Category?.Name</dd>
+
+            <dt class="col-sm-4">Бренд:</dt>
+            <dd class="col-sm-8">@Model.Brand?.Name</dd>
+
+            <dt class="col-sm-4">Дата создания:</dt>
+            <dd class="col-sm-8">@Model.CreatedAt.ToString("dd.MM.yyyy HH:mm")</dd>
+
+            <dt class="col-sm-4">Дата обновления:</dt>
+            <dd class="col-sm-8">@Model.UpdatedAt.ToString("dd.MM.yyyy HH:mm")</dd>
+        </dl>
+
+        <a asp-controller="Order" asp-action="Create" asp-route-id="@Model.Id" class="btn btn-success">Заказать</a>
+        <a asp-action="Index" class="btn btn-outline-secondary ms-2">Назад к списку</a>
+    </div>
+</div>
