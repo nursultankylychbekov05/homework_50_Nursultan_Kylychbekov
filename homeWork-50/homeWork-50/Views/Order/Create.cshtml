@@ -1,0 +1,48 @@
+﻿@model homeWork_50.Models.Order
+
+@{
+    ViewData["Title"] = "Оформление заказа";
+    var product = ViewBag.Product as homeWork_50.Models.Product;
+}
+
+<h2>Оформление заказа</h2>
+<hr />
+
+@if (product != null)
+{
+    <div class="card mb-4 col-md-6 bg-light">
+        <div class="card-body">
+            <h5 class="card-title">@product.Name</h5>
+            <p class="card-text fw-bold text-primary mb-0">Цена: @product.Price.ToString("N0") сом</p>
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post">
+            <input type="hidden" asp-for="ProductId" />
+
+            <div class="mb-3">
+                <label asp-for="CustomerName" class="form-label"></label>
+                <input asp-for="CustomerName" class="form-control" autocomplete="off" />
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Address" class="form-label"></label>
+                <input asp-for="Address" class="form-control" autocomplete="off" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ContactPhone" class="form-label"></label>
+                <input asp-for="ContactPhone" class="form-control" placeholder="+996 ..." autocomplete="off" />
+                <span asp-validation-for="ContactPhone" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-success">Подтвердить заказ</button>
+            <a asp-controller="Products" asp-action="Index" class="btn btn-secondary ms-2">Отмена</a>
+        </form>
+    </div>
+</div>
