@@ -1,0 +1,55 @@
+﻿@model homeWork_50.Models.Brand
+
+@{
+    ViewData["Title"] = "Бренды";
+    var brands = ViewBag.Brands as List<homeWork_50.Models.Brand> ?? new List<homeWork_50.Models.Brand>();
+}
+
+<h2>Управление брендами</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-5">
+        <h4>Добавить бренд</h4>
+        <form asp-action="Create" method="post">
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" autocomplete="off" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Добавить</button>
+        </form>
+    </div>
+
+    <div class="col-md-7">
+        <h4>Список брендов</h4>
+        @if (!brands.Any())
+        {
+            <p class="text-muted">Бренды пока не добавлены.</p>
+        }
+        else
+        {
+            <table class="table table-striped align-middle">
+                <thead>
+                <tr>
+                    <th>Название</th>
+                    <th style="width: 100px;">Действие</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in brands)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>
+                            <form asp-action="Delete" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Удалить бренд?');">
+                                <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

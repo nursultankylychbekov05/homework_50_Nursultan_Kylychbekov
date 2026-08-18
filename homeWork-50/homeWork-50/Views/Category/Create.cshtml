@@ -1,0 +1,55 @@
+﻿@model homeWork_50.Models.Category
+
+@{
+    ViewData["Title"] = "Категории";
+    var categories = ViewBag.Categories as List<homeWork_50.Models.Category> ?? new List<homeWork_50.Models.Category>();
+}
+
+<h2>Управление категориями</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-5">
+        <h4>Добавить категорию</h4>
+        <form asp-action="Create" method="post">
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" autocomplete="off" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Добавить</button>
+        </form>
+    </div>
+
+    <div class="col-md-7">
+        <h4>Список категорий</h4>
+        @if (!categories.Any())
+        {
+            <p class="text-muted">Категории пока не добавлены.</p>
+        }
+        else
+        {
+            <table class="table table-striped align-middle">
+                <thead>
+                <tr>
+                    <th>Название</th>
+                    <th style="width: 100px;">Действие</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in categories)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>
+                            <form asp-action="Delete" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Удалить категорию?');">
+                                <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
